@@ -52,10 +52,14 @@
             </div>
         </div>
 
-        <div class="mt-6">
+        <div class="flex flex-col items-end mt-4">
             <x-button class="w-full">
                 {{ __('Log in') }}
             </x-button>
+
+            <a class="mt-4 text-sm text-gray-600 underline hover:text-gray-900" href="{{ route('register') }}">
+                {{ __('Not registered?') }}
+            </a>
         </div>
 
     </form>
