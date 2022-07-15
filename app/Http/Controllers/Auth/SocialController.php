@@ -22,8 +22,17 @@ class SocialController extends Controller
 		try {
 			$user = Socialite::driver('facebook')->stateless()->user();
 
-			// Check if user already signed up/in using any social auth
-			$isUser = User::whereFacebookIdOrGoogleIdOrEmail($user->id, $user->id, $user->email)->first();
+			// Check if user already signed up using another social auth
+			$userExists = User::whereEmail($user->email)->whereNotNull('google_id')->first();
+
+			if ($userExists) {
+				return redirect(route('login'))->withErrors([
+					'errors' => "Account already exists using Google authentication. Sign in with your email or Google"
+				]);
+			}
+
+			// Check if user has previously signed up with Facebook
+			$isUser = User::whereFacebookIdOrEmail($user->id, $user->email)->first();
 
 			if ($isUser) {
 				Auth::login($isUser);
@@ -34,7 +43,7 @@ class SocialController extends Controller
 			}
 		} catch (Exception $exception) {
 			throw $exception;
-			dd($exception->getMessage());
+			// dd($exception->getMessage());
 		}
 	}
 
@@ -43,8 +52,17 @@ class SocialController extends Controller
 		try {
 			$user = Socialite::driver('google')->stateless()->user();
 
-			// Check if user already signed up/in using any social auth
-			$isUser = User::whereFacebookIdOrGoogleIdOrEmail($user->id, $user->id, $user->email)->first();
+			// Check if user already signed up using another social auth
+			$userExists = User::whereEmail($user->email)->whereNotNull('facebook_id')->first();
+
+			if ($userExists) {
+				return redirect(route('login'))->withErrors([
+					'errors' => "Account already exists using Facebook authentication. Sign in with your email or Facebook"
+				]);
+			}
+
+			// Check if user has previously signed up with Google
+			$isUser = User::whereGoogleIdOrEmail($user->id, $user->email)->first();
 
 			if ($isUser) {
 				Auth::login($isUser);
@@ -55,7 +73,7 @@ class SocialController extends Controller
 			}
 		} catch (Exception $exception) {
 			throw $exception;
-			dd($exception->getMessage());
+			// dd($exception->getMessage());
 		}
 	}
 
@@ -75,5 +93,19 @@ class SocialController extends Controller
 		Auth::login($createUser);
 
 		return redirect()->intended(RouteServiceProvider::HOME);
+	}
+
+	public function checkIfSocialAuthExists($user, $socialId, $name)
+	{
+		// Check if user already signed up using another social auth
+		$userExists = User::whereEmail($user->email)->whereNotNull($socialId)->first();
+
+		if ($userExists) {
+			return redirect(route('login'))->withErrors([
+				'errors' => "Account already exists using {$name} authentication. Sign in with your email or Google"
+			]);
+		}
+
+		return 'false';
 	}
 }

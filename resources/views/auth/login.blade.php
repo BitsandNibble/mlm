@@ -14,7 +14,7 @@
 
 		<!-- Email Address -->
 		<div>
-			<x-label for="login">Email / Username / Phone</x-label>
+			<x-label for="login">Email / Username</x-label>
 			<x-input type="text" id="login" name="login" :value="old('login')" autofocus />
 			{{-- <x-label for="email" :value="__('Email')" />
 			<x-input type="email" name="email" id="email" value="{{ old('email') }}" autofocus /> --}}

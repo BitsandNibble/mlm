@@ -34,12 +34,12 @@ return [
 	'facebook' => [
 		'client_id'     => '719444015815396',
 		'client_secret' => '07b959b7ad29a91c3127f0a0428a24e6',
-		'redirect'      => 'http://localhost:8000/auth/callback/facebook',
+		'redirect'      => env('CURRENT_URL', 'http://localhost:8000') . '/auth/callback/facebook',
 	],
 
 	'google' => [
 		'client_id'     => '125109212140-sl3lj9vrtecm1bq2u1p489islb0lrh9l.apps.googleusercontent.com',
 		'client_secret' => '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',
-		'redirect'      => 'http://localhost:8000/auth/callback/google',
+		'redirect'      => env('CURRENT_URL', 'http://localhost:8000') . '/auth/callback/google',
 	],
 ];
