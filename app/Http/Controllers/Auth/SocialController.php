@@ -30,16 +30,7 @@ class SocialController extends Controller
 
 				return redirect()->intended(RouteServiceProvider::HOME);
 			} else {
-				$createUser = User::create([
-					'name'        => $user->name,
-					'email'       => $user->email,
-					'facebook_id' => $user->id,
-					'password'    => bcrypt('password')
-				]);
-
-				Auth::login($createUser);
-
-				return redirect()->intended(RouteServiceProvider::HOME);
+				$this->createUser($user, 'facebook_id');
 			}
 		} catch (Exception $exception) {
 			throw $exception;
@@ -60,20 +51,29 @@ class SocialController extends Controller
 
 				return redirect()->intended(RouteServiceProvider::HOME);
 			} else {
-				$createUser = User::create([
-					'name'      => $user->name,
-					'email'     => $user->email,
-					'google_id' => $user->id,
-					'password'  => bcrypt('password')
-				]);
-
-				Auth::login($createUser);
-
-				return redirect()->intended(RouteServiceProvider::HOME);
+				$this->createUser($user, 'google_id');
 			}
 		} catch (Exception $exception) {
 			throw $exception;
 			dd($exception->getMessage());
 		}
+	}
+
+	function createUser($user, $socialId)
+	{
+		$index  = mt_rand(111111, 999999);
+		$userID = sprintf("%s%04s", 'MLM', ++$index);
+
+		$createUser = User::create([
+			'name'     => $user->name,
+			'email'    => $user->email,
+			'userID'   => $userID,
+			$socialId  => $user->id,
+			'password' => bcrypt('password'),
+		]);
+
+		Auth::login($createUser);
+
+		return redirect()->intended(RouteServiceProvider::HOME);
 	}
 }

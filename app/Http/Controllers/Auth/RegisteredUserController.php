@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Str;
 
 class RegisteredUserController extends Controller
 {
@@ -41,17 +42,21 @@ class RegisteredUserController extends Controller
 			'password' => ['required', 'confirmed', Rules\Password::defaults()],
 		]);
 
+        $index  = mt_rand(111111, 999999);
+        $userID = sprintf("%s%04s", 'MLM', ++$index);
+
 		$user = User::create([
 			'name'     => $request->name,
 			'email'    => $request->email,
 			'username' => $request->username,
 			'phone'    => $request->phone,
+			'userID'   => $userID,
 			'password' => Hash::make($request->password),
 		]);
 
 		event(new Registered($user));
 
-		Auth:: login($user);
+		Auth::login($user);
 
 		return redirect(RouteServiceProvider::HOME);
 	}
