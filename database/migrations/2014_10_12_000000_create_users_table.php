@@ -24,6 +24,7 @@ return new class extends Migration
 			$table->string('facebook_id')->nullable();
 			$table->string('google_id')->nullable();
 			$table->timestamp('email_verified_at')->nullable();
+			$table->integer('user_type')->default(2);
 			$table->rememberToken();
 			$table->timestamps();
 		});

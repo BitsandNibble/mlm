@@ -19,9 +19,14 @@ Route::get('/', function () {
 	return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-	return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+// Admin route
+Route::group(['prefix' => 'admin', 'name' => 'admin.', 'middleware' => ['auth', 'isAdmin']], function () {
+	Route::view('dashboard', 'admin.dashboard')->name('dashboard');
+});
+
+// User route
+Route::view('dashboard', 'dashboard')->name('dashboard');
+
 
 require __DIR__ . '/auth.php';
 

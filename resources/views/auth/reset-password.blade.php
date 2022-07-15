@@ -19,6 +19,7 @@
                      name="email"
                      id="email"
                      value="{{ old('email', $request->email) }}"
+					 readonly
                      required
             />
         </div>
