@@ -25,14 +25,13 @@
 		<!-- Username -->
 		<div class="mt-3">
 			<x-label for="username" :value="__('Username')" />
-			<x-input type="text" name="username" id="username" value="{{ old('username') }}"
-				required />
+			<x-input type="text" name="username" id="username" value="{{ old('username') }}" />
 		</div>
 
 		<!-- Email Address -->
 		<div class="mt-3">
 			<x-label for="phone" :value="__('Phone')" />
-			<x-input type="tel" name="phone" id="phone" value="{{ old('phone') }}" required />
+			<x-input type="tel" name="phone" id="phone" value="{{ old('phone') }}" />
 		</div>
 
 		<!-- Password -->
