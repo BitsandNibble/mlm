@@ -14,15 +14,16 @@
 
 		<!-- Email Address -->
 		<div>
-			<x-label for="email" :value="__('Email')" />
-			<x-input type="email" name="email" id="email" value="{{ old('email') }}" required
-				autofocus />
+			<x-label for="login">Email / Username / Phone</x-label>
+			<x-input type="text" id="login" name="login" :value="old('login')" autofocus />
+			{{-- <x-label for="email" :value="__('Email')" />
+			<x-input type="email" name="email" id="email" value="{{ old('email') }}" autofocus /> --}}
 		</div>
 
 		<!-- Password -->
 		<div class="mt-3">
 			<x-label for="password" :value="__('Password')" />
-			<x-input type="password" name="password" id="password" required
+			<x-input type="password" name="password" id="password"
 				autocomplete="current-password" />
 		</div>
 
